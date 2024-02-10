@@ -1,0 +1,109 @@
+<h1>
+  Pokemon Menu
+</h1>
+
+
+<div class="container">
+  <div class="contenedor-izquierdo">
+    <h2>Buscar por nombre</h2>
+    <form (click)="buscarPorNombre()">
+      <div class="form-row">
+        <input type="text" pInputText [(ngModel)]="nombre" style="width: 200px;" placeholder="ditto..."
+          [ngModelOptions]="{standalone: true}" />
+        <p-button label="Buscar" size="small"></p-button>
+      </div>
+    </form>
+    @if (detallesPokemon) {
+    <div class="pokemon-details ">
+
+        <h3>Pokemon: {{ detallesPokemon.name }} </h3>
+
+        <p>Nombre: {{ detallesPokemon.name }}</p>
+        <p>Peso: {{ detallesPokemon.weight }}</p>
+        <p>Altura: {{ detallesPokemon.height }}</p>
+        <details>
+          <summary>Tipos</summary>
+          <ul>
+            <li *ngFor="let item of detallesPokemon.types">
+              {{ item.type.name }}
+            </li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Habilidades</summary>
+          <ul>
+            <li *ngFor="let item of detallesPokemon.abilities">
+              {{ item.ability.name }}
+            </li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Formas</summary>
+          <ul>
+            <li *ngFor="let item of detallesPokemon.forms">
+              {{ item.name }}
+            </li>
+          </ul>
+        </details>
+
+    </div>
+
+    }
+  </div>
+  <div class="contenedor-derecho">
+    <h2>Buscar por cantidad</h2>
+    <form (click)="buscarPorCantidad()">
+      <div class="form-row">
+        <input type="text" pInputText [(ngModel)]="cantidad" style="width: 200px;" placeholder="5..."
+          [ngModelOptions]="{standalone: true}" />
+        <p-button label="Buscar" size="small"></p-button>
+      </div>
+    </form>
+    @if (listaPokemon) {
+    <div class="form-result">
+      <!-- <table>
+          
+          <thead>
+            <tr>
+              <th>Elemento</th>
+              <th>Cantidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of listaPokemon; track $index) {
+            <tr>
+              <td>{{ item.name }}</td>
+              <td>
+                <a href="{{ item.url }}">Ver detalles</a>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table> -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listaPokemon | slice: (currentPage - 1) * pageSize : currentPage * pageSize">
+            <td>{{ item.name }}</td>
+            <td>
+              <button (click)="getPokemonById(item.url)">Ver detalles</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <button (click)="onPreviousPage()">Anterior</button>
+        <span>{{ currentPage }}</span>
+        <button (click)="onNextPage()">Siguiente</button>
+      </div>
+    </div>
+    }
+  </div>
+</div>
